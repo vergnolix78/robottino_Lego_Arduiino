@@ -90,7 +90,7 @@ void loop()
     if(char(x)=='b'){
       BTSerial.write("Robot Spento");
       active=0;
-      
+      motorStop();
     }
   }
 
@@ -101,6 +101,7 @@ void loop()
       active=1;
     }else{
       active=0;
+      motorStop();
     }
   }
   
@@ -123,9 +124,18 @@ void loop()
     //Vedo avanti
     distance = ultraSuoni();
     if(distance > 20){
+      
       // I motori girano in avanti                         
       motorAvanti();
-    }else{
+    }
+    
+    if(active==0){
+      
+      motorStop();
+    }
+
+    if(distance <= 20){
+      
       motorStop();
       delay(500);
       motorGira();
@@ -133,11 +143,10 @@ void loop()
       motorStop();
     }
   
-    delay(500);
-    
   }
  
-  lastState = currentState;  
+  lastState = currentState;
+  delay(500);  
 }
 
 int ultraSuoni(){
@@ -184,7 +193,7 @@ void motorGira(){
   digitalWrite(motorPin4, LOW);
 }
 
-int sound(){
+void sound(){
     digitalWrite(buzzerPin,HIGH);
     delay(buzzerRitardo);
     digitalWrite(buzzerPin,LOW);
