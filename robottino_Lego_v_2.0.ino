@@ -14,7 +14,9 @@ const int motorPin3  = 10;
 const int motorPin4  = 9;  
 
 // Velocita motori
-int velocita = 200;
+//int velocita = 80;
+int velMot1 = 152;
+int velMot2 = 172;
 
 // Creo i thread
 Thread trheadEvitaOstacoli = Thread();
@@ -40,7 +42,7 @@ int active = 0;
 byte buzzerPin = 2;
 int buzzerRitardo = 100;      
 
-int x;
+char x;
 
 
 void setup() 
@@ -82,12 +84,12 @@ void loop()
   if(BTSerial.available()){
     x = BTSerial.read();
     Serial.write(char(x));
-    if(char(x)=='a'){
+    if(x =='a'){
       BTSerial.write("Robot Acceso");
       active=1;
       
     }
-    if(char(x)=='b'){
+    if(x =='b'){
       BTSerial.write("Robot Spento");
       active=0;
       motorStop();
@@ -123,7 +125,8 @@ void loop()
     
     //Vedo avanti
     distance = ultraSuoni();
-    if(distance > 20){
+    Serial.println(distance);
+    if(distance > 25){
       
       // I motori girano in avanti                         
       motorAvanti();
@@ -134,7 +137,7 @@ void loop()
       motorStop();
     }
 
-    if(distance <= 20){
+    if(distance <= 25){
       
       motorStop();
       delay(500);
@@ -146,7 +149,7 @@ void loop()
   }
  
   lastState = currentState;
-  delay(500);  
+  delay(1000);  
 }
 
 int ultraSuoni(){
@@ -173,10 +176,10 @@ void blinkLed(){
 }
 
 void motorAvanti(){
-  digitalWrite(motorPin1, LOW);
-  digitalWrite(motorPin2, HIGH);
-  digitalWrite(motorPin3, LOW);
-  digitalWrite(motorPin4, HIGH);
+  analogWrite(motorPin1, 0);
+  analogWrite(motorPin2, velMot1);
+  analogWrite(motorPin3, 0);
+  analogWrite(motorPin4, velMot2);
 }
 
 void motorStop(){
@@ -199,4 +202,3 @@ void sound(){
     digitalWrite(buzzerPin,LOW);
     delay(buzzerRitardo);    
 }
-
