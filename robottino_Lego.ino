@@ -10,7 +10,9 @@ const int motorPin3  = 10;
 const int motorPin4  = 9;  
 
 // Velocita motori
-int velocita = 200;
+//int velocita = 80;
+int velMot1 = 152;
+int velMot2 = 172;
 
 // Creo i thread
 Thread trheadEvitaOstacoli = Thread();
@@ -112,7 +114,7 @@ int ultraSuoni(){
   delay(500);
   return distanza;
 }
-  // calcolo del tempo attraverso il pin di echo-
+  
 // Accendo e spengo un led
 void blinkLed(){
   digitalWrite(led, HIGH);
@@ -122,10 +124,10 @@ void blinkLed(){
 }
 
 void motorAvanti(){
-  digitalWrite(motorPin1, LOW);
-  digitalWrite(motorPin2, HIGH);
-  digitalWrite(motorPin3, LOW);
-  digitalWrite(motorPin4, HIGH);
+  analogWrite(motorPin1, 0);
+  analogWrite(motorPin2, velMot1);
+  analogWrite(motorPin3, 0);
+  analogWrite(motorPin4, velMot2);
 }
 
 void motorStop(){
@@ -141,3 +143,4 @@ void motorGira(){
   digitalWrite(motorPin3, HIGH);
   digitalWrite(motorPin4, LOW);
 }
+
